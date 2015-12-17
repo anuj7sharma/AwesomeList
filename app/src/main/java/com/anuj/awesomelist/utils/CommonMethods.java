@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -20,8 +19,6 @@ import android.view.ViewAnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.betasoft.smartfarm.GlobalActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -275,7 +272,7 @@ public class CommonMethods {
          */
     public static final void showOkDialog(String dlgText, Context context) {
 
-        if (context == null && GlobalActivity.getGlobalContext() != null) {
+        /*if (context == null && GlobalActivity.getGlobalContext() != null) {
             context = GlobalActivity.getGlobalContext();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context,
@@ -288,7 +285,7 @@ public class CommonMethods {
 
         });
         alert = builder.create();
-        alert.show();
+        alert.show();*/
     }
 
 }
