@@ -53,7 +53,6 @@ public class MainActivityListAdapter extends RecyclerView.Adapter<MainActivityLi
              */
             Picasso.with(mContext)
                     .load(obj.getImage())
-                    .placeholder(R.drawable.ic_material_img)
                     .error(R.drawable.ic_material_img)
                     .into(holder.mImg);
             /*
