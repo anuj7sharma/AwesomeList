@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.anuj.awesomelist.adapters.MainActivityListAdapter;
 import com.anuj.awesomelist.adapters.MainActivityListAdapter.MainScreenListener;
+import com.anuj.awesomelist.customClasses.ParallaxRecyclerView;
 import com.anuj.awesomelist.models.MainScreenModel;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
 
     @Bind(R.id.parentlayout)CoordinatorLayout mParent;
     @Bind(R.id.toolbar)Toolbar mToolbar;
-    @Bind(R.id.mainscreen_recycler)RecyclerView mRecyclerView;
+    @Bind(R.id.mainscreen_recycler)
+    ParallaxRecyclerView mRecyclerView;
 
     MainScreenModel obj=null;
     LinearLayoutManager llm =null;

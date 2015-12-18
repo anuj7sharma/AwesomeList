@@ -1,6 +1,7 @@
 package com.anuj.awesomelist.adapters;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,16 @@ public class MainActivityListAdapter extends RecyclerView.Adapter<MainActivityLi
                     .load(obj.getImage())
                     .error(R.drawable.ic_material_img)
                     .into(holder.mImg);
+
+            /*
+            Set Parallax Effect on Images
+             */
+            Matrix matrix = holder.mImg.getImageMatrix();
+            matrix.postTranslate(0, -100);
+            holder.mImg.setImageMatrix(matrix);
+
+            holder.itemView.setTag(holder);
+
             /*
             Set click listeners
              */
