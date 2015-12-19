@@ -22,7 +22,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".views.DescriptionActivity" />
+        <activity
+            android:name=".views.DescriptionActivity"
+            android:theme="@style/detailTheme" />
     </application>
 
 </manifest>

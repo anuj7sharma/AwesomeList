@@ -11,8 +11,6 @@
     <com.anuj.awesomelist.customClasses.ParallaxRecyclerView
         android:id="@+id/mainscreen_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginRight="@dimen/margin_5"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

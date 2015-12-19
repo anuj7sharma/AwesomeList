@@ -2,17 +2,22 @@ package com.anuj.awesomelist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.anuj.awesomelist.adapters.MainActivityListAdapter;
@@ -42,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private List<MainScreenModel> mList = new ArrayList<MainScreenModel>();
     MainActivityListAdapter mRecyclerAdapter = null;
+
+    //for palette class
+    private int mDefaultBackgroundColor;
+    public final static int COLOR_ANIMATION_DURATION = 1000;
+    public static SparseArray<Bitmap> photoCache = new SparseArray<>(1);
 
     public String[] imagesTitle = new String[]{"New Horizon",
             "Beauty of Rocks",
@@ -76,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
             "https://lh5.googleusercontent.com/-dJgjepFrYSo/URqvBVJZrAI/AAAAAAAAAbs/v-F5QWpYO6s/s1024/Sierra%252520Sunset.jpg"
     };
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mDefaultBackgroundColor = MainActivity.this.getResources().getColor(R.color.image_without_palette);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
         mContext = MainActivity.this;
         initToolBar();
         initRecyclerView();
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     @Override
@@ -204,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     }
 
     @Override
-    public void onItemClick(MainScreenModel obj, int position,ImageView mImage) {
+    public void onItemClick(MainScreenModel obj, int position, View v) {
         if(obj!=null){
             /*if(!obj.getIsSelected()){
                 //Make image blur
@@ -221,7 +229,36 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
             Move to Transparent Activity
              */
             Intent intent = new Intent(mContext, DescriptionActivity.class);
-            startActivity(intent);
+            intent.putExtra("position", position);
+            intent.putExtra("image", obj.getImage());
+            intent.putExtra("title", obj.getHeading());
+            intent.putExtra("description", obj.getSubHeading());
+            ImageView coverImage = (ImageView) v.findViewById(R.id.view_img);
+            if (coverImage == null) {
+                coverImage = (ImageView) ((View) v.getParent())
+                        .findViewById(R.id.view_img);
+            }
+            if (Build.VERSION.SDK_INT >= 21) {
+                if (coverImage.getParent() != null) {
+                    ((ViewGroup) coverImage.getParent())
+                            .setTransitionGroup(false);
+                }
+            }
+            if (coverImage != null && coverImage.getDrawable() != null) {
+                Bitmap bitmap = ((BitmapDrawable) coverImage.getDrawable())
+                        .getBitmap(); // ew
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    photoCache.put(position, bitmap);
+
+                    // Setup the transition to the detail activity
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(MainActivity.this,
+                                    coverImage, "cover");
+
+                    startActivity(intent, options.toBundle());
+                }
+            }
+//            startActivity(intent);
         }
     }
 }

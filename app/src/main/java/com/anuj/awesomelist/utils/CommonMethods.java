@@ -2,13 +2,15 @@ package com.anuj.awesomelist.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.PathInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -105,20 +108,23 @@ public class CommonMethods {
         }
         return 0;
     }
-    /*
-    Async Task method
-     */
 
-    public void runonAsynTask(AsyncTask<String, Void, String> mAsynctask) {
-        if (mAsynctask != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-                mAsynctask.executeOnExecutor(
-                        AsyncTask.THREAD_POOL_EXECUTOR, new String[]{null});
-            else
-                mAsynctask.execute();
+    public final static int COLOR_ANIMATION_DURATION = 1000;
+    public final static int DEFAULT_DELAY = 0;
+
+    @SuppressLint("NewApi")
+    public static void animateViewColor(View v, int startColor, int endColor) {
+
+        ObjectAnimator animator = ObjectAnimator.ofObject(v, "backgroundColor",
+                new ArgbEvaluator(), startColor, endColor);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            animator.setInterpolator(new PathInterpolator(0.4f, 0f, 1f, 1f));
         }
-
+        animator.setDuration(COLOR_ANIMATION_DURATION);
+        animator.start();
     }
+
 
     /*
     Enter Reveal Animation
