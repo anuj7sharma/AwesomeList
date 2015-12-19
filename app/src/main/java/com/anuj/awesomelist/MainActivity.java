@@ -1,10 +1,10 @@
 package com.anuj.awesomelist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +19,7 @@ import com.anuj.awesomelist.adapters.MainActivityListAdapter;
 import com.anuj.awesomelist.adapters.MainActivityListAdapter.MainScreenListener;
 import com.anuj.awesomelist.customClasses.ParallaxRecyclerView;
 import com.anuj.awesomelist.models.MainScreenModel;
+import com.anuj.awesomelist.views.DescriptionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,14 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     private List<MainScreenModel> mList = new ArrayList<MainScreenModel>();
     MainActivityListAdapter mRecyclerAdapter = null;
 
+    public String[] imagesTitle = new String[]{"New Horizon",
+            "Beauty of Rocks",
+            "Coast Beach",
+            "Drive of Wheels",
+            "Beautiful Sky",
+            "Awesome Evening",
+            "Flowers Beauty",
+            ""};
     public String[] gridViewImages = new String[] {
             "https://lh4.googleusercontent.com/-AaHAJPmcGYA/URqu3PIldHI/AAAAAAAAAbs/lcTqk1SIcRs/s1024/Monument%252520Valley%252520Overlook.jpg",
             "https://lh4.googleusercontent.com/-vKxfdQ83dQA/URqu31Yq_BI/AAAAAAAAAbs/OUoGk_2AyfM/s1024/Moving%252520Rock.jpg",
@@ -76,12 +85,12 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
         mContext = MainActivity.this;
         initToolBar();
         initRecyclerView();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
     }
@@ -197,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     @Override
     public void onItemClick(MainScreenModel obj, int position,ImageView mImage) {
         if(obj!=null){
-            if(!obj.getIsSelected()){
+            /*if(!obj.getIsSelected()){
                 //Make image blur
                 obj.setIsSelected(true);
                 mImage.setAlpha((float) 0.5);
@@ -207,7 +216,12 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
                 obj.setIsSelected(false);
                 mImage.setAlpha((float) 1);
 
-            }
+            }*/
+            /*
+            Move to Transparent Activity
+             */
+            Intent intent = new Intent(mContext, DescriptionActivity.class);
+            startActivity(intent);
         }
     }
 }
