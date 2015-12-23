@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.anuj.awesomelist.R;
@@ -87,6 +88,7 @@ public class MainActivityListAdapter extends RecyclerView.Adapter<MainActivityLi
 
                                 if (s != null) {
                                     holder.mLayout.setBackgroundColor(s.getTitleTextColor());
+                                    holder.mImg.setBackgroundColor(s.getTitleTextColor());
                                     holder.mContent.setBackgroundColor(s.getTitleTextColor());
                                     holder.mHeading.setTextColor(s.getTitleTextColor());
                                     holder.mSubHeading.setTextColor(s.getTitleTextColor());
@@ -137,7 +139,7 @@ public class MainActivityListAdapter extends RecyclerView.Adapter<MainActivityLi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout mLayout;
+        public RelativeLayout mLayout;
         public LinearLayout mContent;
         public ImageView mImg;
         public TextView mHeading;
@@ -146,7 +148,7 @@ public class MainActivityListAdapter extends RecyclerView.Adapter<MainActivityLi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            mLayout = (LinearLayout)itemView.findViewById(R.id.view_parent);
+            mLayout = (RelativeLayout)itemView.findViewById(R.id.view_parent);
             mContent = (LinearLayout) itemView.findViewById(R.id.view_content);
             mImg = (ImageView)itemView.findViewById(R.id.view_img);
             mHeading = (TextView)itemView.findViewById(R.id.view_heading);

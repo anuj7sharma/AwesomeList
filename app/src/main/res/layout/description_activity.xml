@@ -1,55 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/detail_parentlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA000000">
-
-    <ScrollView
+    android:background="@android:color/transparent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
+            android:id="@+id/img_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:clickable="false"
+            android:layout_marginTop="@dimen/margin_64"
+            >
 
             <ImageView
                 android:id="@+id/detail_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="@dimen/img_def_height"
-                android:minHeight="@dimen/img_def_height"
                 android:scaleType="centerCrop" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/window_background"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_10"
+            android:paddingLeft="@dimen/margin_16"
+            android:paddingRight="@dimen/margin_16"
+            android:paddingTop="@dimen/margin_10"
+            android:layout_below="@+id/img_container"
+            android:clickable="false">
 
-            <LinearLayout
-                android:id="@+id/detail_layout"
+            <TextView
+                android:id="@+id/detail_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/window_background"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_10"
-                android:paddingLeft="@dimen/margin_16"
-                android:paddingStart="@dimen/margin_16"
-                android:paddingTop="@dimen/margin_10">
+                android:text="Heading"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_heading_big" />
 
-                <TextView
-                    android:id="@+id/detail_heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Heading"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_heading_big" />
-
-                <TextView
-                    android:id="@+id/detail_subheading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sub-heading"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/detail_subheading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sub-heading"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size" />
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </RelativeLayout>
+</ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_16"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        android:src="@android:drawable/ic_menu_share"
+        app:layout_anchor="@id/img_container"
+        app:layout_anchorGravity="bottom|right|end" />
+</android.support.design.widget.CoordinatorLayout>

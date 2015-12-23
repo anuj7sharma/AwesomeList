@@ -3,9 +3,11 @@ package com.anuj.awesomelist;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +21,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.anuj.awesomelist.adapters.MainActivityListAdapter;
 import com.anuj.awesomelist.adapters.MainActivityListAdapter.MainScreenListener;
+import com.anuj.awesomelist.customClasses.ConnectivityEvent;
 import com.anuj.awesomelist.customClasses.ParallaxRecyclerView;
 import com.anuj.awesomelist.models.MainScreenModel;
+import com.anuj.awesomelist.utils.MobileConnectivity;
 import com.anuj.awesomelist.views.DescriptionActivity;
 
 import java.util.ArrayList;
@@ -31,15 +36,20 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity implements MainScreenListener {
 
     Context mContext;
+    private EventBus bus = EventBus.getDefault();
 
     @Bind(R.id.parentlayout)CoordinatorLayout mParent;
     @Bind(R.id.toolbar)Toolbar mToolbar;
-    @Bind(R.id.mainscreen_recycler)
-    ParallaxRecyclerView mRecyclerView;
+    @Bind(R.id.mainscreen_recycler)ParallaxRecyclerView mRecyclerView;
+
+    @Bind(R.id.connectivity_status)TextView mConnectivityStatus;
+
+
 
     MainScreenModel obj=null;
     LinearLayoutManager llm =null;
@@ -53,14 +63,16 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     public final static int COLOR_ANIMATION_DURATION = 1000;
     public static SparseArray<Bitmap> photoCache = new SparseArray<>(1);
 
-    public String[] imagesTitle = new String[]{"New Horizon",
-            "Beauty of Rocks",
+    public String[] imagesTitle = new String[]{"Cool View","View without Rain","Mountains meet with Sea","Best Stoppie",
+            "Beautiful Sky","Awesome Sun Rise","Lily Flowers","Ape age","Blue Waves","Stars revealing","Golden Fish",
+            "Zannat view","Where Earth meet Sky",
+            "Conceptualization","Beauty of Rocks",
             "Coast Beach",
-            "Drive of Wheels",
-            "Beautiful Sky",
-            "Awesome Evening",
-            "Flowers Beauty",
-            ""};
+            "Crossing Border",
+            "Thirsty Earth",
+            "Sea Horse",
+            "Sky Scrappers",
+            "God Gifts","Mountains"};
     public String[] gridViewImages = new String[] {
             "https://lh4.googleusercontent.com/-AaHAJPmcGYA/URqu3PIldHI/AAAAAAAAAbs/lcTqk1SIcRs/s1024/Monument%252520Valley%252520Overlook.jpg",
             "https://lh4.googleusercontent.com/-vKxfdQ83dQA/URqu31Yq_BI/AAAAAAAAAbs/OUoGk_2AyfM/s1024/Moving%252520Rock.jpg",
@@ -97,7 +109,15 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        // Register as a subscriber
+        bus.register(this);
+
         mContext = MainActivity.this;
+        if(!MobileConnectivity.checkNetworkConnections(mContext).isIntenetConnectionactive()){
+            mConnectivityStatus.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
+            mConnectivityStatus.setVisibility(View.VISIBLE);
+            mConnectivityStatus.setText("Internet not Available :(");
+        }
         initToolBar();
         initRecyclerView();
 
@@ -106,9 +126,27 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     @Override
     protected void onDestroy() {
         ButterKnife.unbind(this);
+        // Unregister
+        bus.unregister(this);
         super.onDestroy();
     }
 
+    public void onEvent(ConnectivityEvent event){
+        if(event.getData().contains("Connected :)")){
+            mConnectivityStatus.setBackgroundColor(mContext.getResources().getColor(R.color.green));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mConnectivityStatus.setVisibility(View.GONE);
+                }
+            },2000);
+        }
+        else{
+            mConnectivityStatus.setBackgroundColor(mContext.getResources().getColor(R.color.orange));
+            mConnectivityStatus.setVisibility(View.VISIBLE);
+        }
+        mConnectivityStatus.setText(event.getData());
+    }
     /*
         Initialize Toolbar Here
          */
@@ -128,12 +166,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
      */
     void initRecyclerView(){
         mRecyclerView.setHasFixedSize(true);
-        llm = new LinearLayoutManager(mContext) {
-            @Override
-            protected int getExtraLayoutSpace(RecyclerView.State state){
-                    return 300;
-            }
-        };
+        llm = new LinearLayoutManager(mContext);
 
         llm = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(llm);
@@ -166,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
         for(int i=0;i<gridViewImages.length;i++){
             obj = new MainScreenModel();
             obj.setId(""+i);
-            obj.setHeading("Heading Text "+i);
+            obj.setHeading(imagesTitle[i]);
             obj.setSubHeading("Sub Heading");
             obj.setImage(gridViewImages[i]);
             obj.setIsSelected(false);
@@ -192,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

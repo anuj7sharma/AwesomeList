@@ -12,7 +12,7 @@ import com.anuj.awesomelist.adapters.MainActivityListAdapter;
  */
 public class ParallaxScrollListener extends RecyclerView.OnScrollListener {
 
-    private float scrollSpeed = 0.6f;
+    private float scrollSpeed = 0.5f;
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

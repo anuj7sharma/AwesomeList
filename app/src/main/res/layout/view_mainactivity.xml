@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/light_gray"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/image_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/window_background"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/view_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/img_def_height"
+                android:minHeight="200dp"
                 android:scaleType="centerCrop" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/view_content"
+
+    <LinearLayout
+        android:id="@+id/view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/image_without_palette"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10"
+        android:layout_below="@+id/image_container">
+
+        <TextView
+            android:id="@+id/view_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/image_without_palette"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/margin_10"
-            android:paddingTop="@dimen/margin_10">
+            android:paddingLeft="@dimen/margin_16"
+            android:text="Sample Text"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_heading_big" />
 
-            <TextView
-                android:id="@+id/view_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_16"
-                android:text="Sample Text"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size_heading_big" />
-
-            <TextView
-                android:id="@+id/view_subheading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:paddingBottom="7dp"
-                android:paddingLeft="@dimen/margin_16"
-                android:text="Sub Heading"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
-
-    </FrameLayout>
-</LinearLayout>
+        <TextView
+            android:id="@+id/view_subheading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:paddingBottom="7dp"
+            android:paddingLeft="@dimen/margin_16"
+            android:text="Sub Heading"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+</RelativeLayout>
